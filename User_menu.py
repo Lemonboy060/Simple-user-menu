@@ -1,15 +1,26 @@
 from tkinter import*
 # from PIL import ImageTk, Image 
-win = Tk()
+counter = 0
+max_attempts = 3
 
 def check_login():
+    global counter
     correct_email = "hello@mail.co.uk"
     correct_password = "password"
 
     if email_input.get() == correct_email and passwrd_input.get() == correct_password:
         success_screen()
     else:
-        error_label.config(text = "Incorrect credentails, try again", fg = "red")
+        counter +=1
+        attempts_left = max_attempts - counter
+
+        if counter >= max_attempts:
+            error_label.config(text = "Incorrect credentials, out of attempts", fg="red")
+            email.config(state="disabled")
+            passwrd.config(state="disabled")
+            button.config(state="disabled")
+        else:  
+            error_label.config(text=f"Incorrect credentials, {attempts_left} attempts left", fg="red")
 
 def success_screen():
     new_win = Toplevel(win)
